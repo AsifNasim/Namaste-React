@@ -1,90 +1,99 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 
-const heading = React.createElement('h1', {
-    id:"heading",
-    xyz: "abc"
-}, "Hello World!");
-
+const heading = React.createElement('h1', 
+    { id :"heading"},
+    "Salaam World"
+);
 console.log(heading);
-// it return an object
+// JSX is equivalent to the above code
+// and the above code is equivalent to the below code
 
-// const root = ReactDOM.createRoot(document.getElementById('root'));
+// JSX is a syntactic sugar for React.createElement
+// JSX is a syntax extension for JavaScript recommended by React 
+// JSX code looks a lot like HTML but ultimately gets transpiled to JavaScript
+// JSX allows us to write HTML elements in JavaScript and place them in the DOM without any createElement and/or appendChild methods
+// JSX makes the code more readable and less complex
+// JSX ultimately transpiles to React.createElement() calls which return plain JavaScript objects called React elements
+// JSX is not a necessity, but it makes the code more readable and easier to write
+// const JSXheading = <h1 id='heading' className='head'>This is React Rocket 🚀</h1>
 
+const JSXheading = (<h1 
+    id='heading' 
+    className='head'>
+        This is React Rocket 🚀
+    </h1>)
+
+// if you are writing JSX code in a multiple line 
+// then you have to wrap it in parentheses
+// so that Babel could understand where to start and where to end
+// and transiple it to React.createElement 
+
+// Both the heading and JSXheading return the same react object
+
+console.log(JSXheading)
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+
+root.render(JSXheading);
 // root.render(heading);
-// console.log(root.render(heading));
 
-// react.render convert the React object according the 
-// browser DOM and render it on the screen
+// EP04 - Functional Components
 
+const Heading = () => {
 
-// props are children + attribute that we passed in
+    return <h2>This is a functional component</h2>;
+}
 
+// if it is a one line code then we don't need to write 
+// return keyword and curly braces
 
-// when face issues with parcel execution then 
-// remove its cache using rm -rf .cache dist node_modules
+// const Heading = () => <h1>This is a functional component</h1>;
 
+// if that one line code is in multiple lines, then we have
+// to wrap it in parentheses
 
+// const Title = () => (<h1> This is Title of my webpage </h1> );
 
-{/* <div id="parent">
-    <div id="child">
-        <h1></h1>
+const HeadingNow = () => (
+    <div id="container">
+        {/* < Title /> */}
+        {title}
+        <h1 
+    id = "heading" >This is a functional component</h1>
+    <h2>{data.text}</h2>
+    <h2>{JSON.stringify(data)}</h2>
+
+    <h3>{sum(1,2)}</h3>
+    <h2>{myName}</h2>
+
     </div>
-</div> */}
 
-const parent = React.createElement('div', {id : "parent"}, 
-    [
-        React.createElement('div', {id : "child1"},[
-            React.createElement('h1', {}, "Hello World! meow meow"),
-            React.createElement('h2', {}, "Hello World! meow meow")
-        ]
-        ),
+);
+const title =  (
+<h1> This is Title of my webpage
+    <Heading />
+     </h1> 
 
-        React.createElement('div', {id : "child2"},[
-            React.createElement('h1', {}, "Hello World! meow meow"),
-            React.createElement('h2', {}, "Hello World! meow meow")
-        ]  
-        )
-    ]
-    
 );
 
-// React.createElement is a function that takes 3 arguments
-// and the third argument is the children that you wanted to pass in
+
+const data = {
+    id: "heading",
+    text: "This is a functional component"
+};
+
+const sum = (a, b) => a + b;
+
+const myName = "Mohammed Asif Nasim"
 
 
-const domRoot = ReactDOM.createRoot(document.getElementById('root'));
-
-domRoot.render(parent);
-
-
-// what is the difference between caret and tilde
-// transitive dependencies
-// when you download a package and the package also has a dependency
-// to run, that's why it is called transitive dependenciews
-// caret - ^ - it will update the minor and patch version - minor upgrades
-// tilde - ~ - it will update the patch version - major upgrades
-
-// package.lock.json has the exact version of the package that you have installed
-
-// browserList
-
-// node modules are collecton of all the packages/dependencies that you have installed
-// whatever you can generate, don't put it on the git
-
-// npm -- install the package 
-// npx -- run/execute the package
-
-const userData = fetch('https://api.github.com/users/AsifNasim')
-
-userData
-.then( resp => {
-   return resp.json();
-})
-.then( data => {
-    console.log(data);
-})
+// putting up component inside another component
+// is called component composition
 
 
+root.render(<Heading />);
+root.render(<HeadingNow />);
 
 
+//React Elements can be used inside React Functional Components and vice versa

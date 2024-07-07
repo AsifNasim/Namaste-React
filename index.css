@@ -1,3 +1,50 @@
 #heading {
-    color: blueviolet;
+    color: salmon;
 }
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    /* background-color: #333; */
+    height: 20px;
+    color: white;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background: linear-gradient(to right, #022e41, #2e4007);
+    
+}
+
+#logo {
+   display: flex;
+   justify-content: center;
+   align-self: center;
+   /* left: 40%; */
+   height: 24px;
+   width: 24px;
+
+}
+
+#user{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    height: 20px;
+    width: 20px;
+}
+
+#headerInput {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    background-color: transparent;
+    border: 1px solid #333;
+    border-radius: 4px;
+}
+
+#headerInput::placeholder {
+    color: white;
+    padding: 10px;
+}
+   

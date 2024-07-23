@@ -1,11 +1,48 @@
 import Restaurant from "./Restaurant";
 import restobj from "../utils/mock-data";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Shimmer from "./Shimmer";
 const SearchBar = () => {
+
+   
+
+    // const [inputValue, setInputValue] = useState('');
+
+    // const handleInputChange = (event) => {
+    //     setInputValue(event.target.value);
+    //     // event.preventDefault();
+    // }
+
+    // async function fetchSearchedData(searchTerm){
+    //     const searchUrl = "https://www.swiggy.com/dapi/restaurants/search/suggest?lat=18.61610&lng=73.72860&str="+ searchTerm+"&trackingId=undefined" 
+    //     const response = await fetch(searchUrl);
+    //     const data = await response.json();
+    //     console.log("Searched Response Data: ", data);
+    //     return data?.data?.suggestions;
+
+    // }
+
+
+    // const handleSearch = async (inputValue) => {
+    //     console.log('Search Term:', inputValue);
+    //     const searchResp = await fetchSearchedData(inputValue);
+    //     console.log("Search Response: ", searchResp); 
+
+    // }
+
+
+    const [searchText, setSearchText] = useState('');
     return (
         <div id='search'>
-            <input type='text' placeholder='Search' />
-            <button>Search</button>
+            {/* <input type='text' value={inputValue} onChange={handleInputChange} placeholder='Search' />
+            <button onClick={ () => handleSearch(inputValue)}>Search</button> */}
+
+            <input type="text"
+            value={searchText}
+            onChange = { (e) => {
+                setSearchText(e.target.value);
+            }}
+            placeholder="Search" />
         </div>
     )
 }
@@ -167,22 +204,49 @@ const Body = () => {
             }
         }
     ]
-const [restState, setRestState] = useState(restobj);
-
-async function fetchData() {
-    const response = await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=17.486463086305346&lng=78.3657343313098&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING');
-    const data = await response.json();
-    const resp = data.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
-    return resp;
-}
+const [restState, setRestState] = useState([]);
 
 
 
+// async function fetchData() {
+//     const response = await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=17.486463086305346&lng=78.3657343313098&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING');
+//     const data = await response.json();
+//     const resp = data.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
+//     return resp;
+// }
+
+useEffect(async () => {
+    async function fetchData() {
+        const response = await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=17.486463086305346&lng=78.3657343313098&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING');
+        const data = await response.json();
+        const resp = data.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
+        return resp;
+    }
+    setRestState(await fetchData());
+}, []);
 
 
-    return (
+// if(restState.length === 0){
+//     return <Shimmer />
+// }
+
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+    });
+  } else {
+    console.log("Geolocation is not supported by this browser.")
+  }
+
+
+    return (restState.length === 0) 
+    ? <Shimmer /> 
+    :
+    (
         <div id='body'>
-            {/* < SearchBar/> */}
+            < SearchBar/>
             <div className="filter">
                 <button 
                 className="filter-btn"

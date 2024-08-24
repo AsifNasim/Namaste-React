@@ -4,8 +4,8 @@
   "description": "Learning react",
   "scripts": {
     "test": "jest",
-    "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "start": "parcel ./src/Assignment06/index.html",
+    "build": "parcel build ./src/Assignment06/index.html"
   },
   "author": "Asif Nasim",
   "license": "ISC",

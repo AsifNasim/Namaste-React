@@ -3,6 +3,8 @@ import { RESTAURANT_IMAGE_URL } from "../config/config";
 import Restaurant from "./Restaurant";
 import { Link } from "react-router-dom";
 
+import useOnlineStatus from "../config/useOnlineStatus";
+
 
 const Body = () => {
     const [restData, setRestData] = useState([]);
@@ -10,6 +12,8 @@ const Body = () => {
     const [loaded, setLoaded] = useState(false);
     const [error, setError] = useState(null);
     const [search, setSearch] = useState("");
+
+    const isOnline = useOnlineStatus();
 
 //     useEffect(() => {
 //         fetchSearchedData(search);
@@ -44,6 +48,8 @@ const Body = () => {
     fetchData();
         
     }, [])
+
+    if(isOnline === false) return <h1>Looks like you are offline!!! please check your internet connection.</h1>
 
     
 

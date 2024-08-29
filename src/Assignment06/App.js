@@ -10,6 +10,8 @@ import Signin from "./components/Signin";
 import Help from "./components/Help";
 import Offers from "./components/Offers";
 import RestaurantsMenu from "./components/RestaurantsMenu";
+import User from "./components/User";
+import About from "./components/About"
 
 const App = () => {
     return (
@@ -54,6 +56,10 @@ const appRouter = createBrowserRouter([
             {
                 path: '/restaurants/:resId',
                 element: <RestaurantsMenu />
+            },
+            {
+                path: '/about',
+                element: <About />,
             }
 
         ],

@@ -332,3 +332,10 @@ ul{
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
 }
+
+
+.user-component{
+    padding: 20px;
+    border: 1px solid black;
+    max-width: 400px;
+}

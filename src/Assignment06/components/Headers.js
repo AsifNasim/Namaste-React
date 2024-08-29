@@ -1,6 +1,8 @@
 import logo from '../public/swiggy-icon.svg'
 import { Link } from 'react-router-dom';
+import useOnlineStatus from '../config/useOnlineStatus';
 const Headers = () => {
+    const isOnline = useOnlineStatus();
     return (
         <div className='nav-bar'>
 
@@ -10,6 +12,9 @@ const Headers = () => {
             
 
             <ul className="navlist-container">
+                <li>
+                    {isOnline ? "Online 🟢": "offline 🔴"}
+                </li>
                 <li  className="nav-list">
                    <Link to="/cart">Cart</Link>
                 </li>
@@ -21,6 +26,10 @@ const Headers = () => {
                 </li>
                 <li className="nav-list">
                     <Link to="/offers">Offers</Link>
+                </li>
+
+                <li className="nav-list">
+                    <Link to="/about">About</Link>
                 </li>
             </ul>
         </div>

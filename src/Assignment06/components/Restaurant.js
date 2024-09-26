@@ -14,10 +14,10 @@ const Restaurant = (props) => {
 
      } = props;
     return (
-        <div className="restaurant-container" >
-            <img className="food-image" src={RESTAURANT_IMAGE_URL+ cloudinaryImageId} alt="food-image" />
+        <div data-testid="resCard" className="p-4 m-4 w-[250px] bg-green-100" >
+            <img className="rounded-lg" src={RESTAURANT_IMAGE_URL+ cloudinaryImageId} alt="food-image" />
             <div className="card-info-container">
-                    <div className="restaurant-name">
+                    <div className="font-bold py-2">
                         {name}
                     </div>
                     <div className="sw-restaurant-card-subtext-container">
@@ -51,6 +51,19 @@ const Restaurant = (props) => {
                 </div>
         </div>
     )
+}
+
+export const withPromotedLabel = (Restaurant) => {
+    // it will return a component
+    return (props) => {
+        // JSX for the returned component
+        return (
+            <div>
+                <label className="absolute bg-black text-white p-2 m-2 rounded-lg">Open</label>
+                <Restaurant {...props}/>
+            </div>
+        )
+    }
 }
 
 export default Restaurant;

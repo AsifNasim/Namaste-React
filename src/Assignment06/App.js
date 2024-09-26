@@ -1,4 +1,4 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import ReactDom from "react-dom/client"
 import Headers from "./components/Headers";
 import Body from "./components/Body";
@@ -11,11 +11,16 @@ import Help from "./components/Help";
 import Offers from "./components/Offers";
 import RestaurantsMenu from "./components/RestaurantsMenu";
 import User from "./components/User";
-import About from "./components/About"
+// import About from "./components/About"
+import { Provider } from "react-redux";
+import appStore from "./config/appStore";
+
+const About = lazy(() => import('./components/About'));
 
 const App = () => {
     return (
-        <div className="main-body">
+        <Provider store={appStore} >
+            <div className="main-body">
             <h1>
                 <Headers />
                 {/* <Search /> */}
@@ -23,6 +28,7 @@ const App = () => {
                 <Outlet />
             </h1>
         </div>
+        </Provider>
     )
     
 }
@@ -39,7 +45,9 @@ const appRouter = createBrowserRouter([
             },
             {
                 path: '/cart',
-                element: <Cart />
+                element: <Provider store={appStore}>
+                    <Cart />
+                </Provider>
             },
             {
                 path: '/signin',
@@ -59,7 +67,11 @@ const appRouter = createBrowserRouter([
             },
             {
                 path: '/about',
-                element: <About />,
+                element: (
+                    <Suspense fallback={<h1>Loading .......</h1>}>
+                        <About/>
+                    </Suspense>
+                ),
             }
 
         ],

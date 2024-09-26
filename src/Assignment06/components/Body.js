@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { RESTAURANT_IMAGE_URL } from "../config/config";
-import Restaurant from "./Restaurant";
+import Restaurant , {withPromotedLabel} from "./Restaurant";
 import { Link } from "react-router-dom";
 
 import useOnlineStatus from "../config/useOnlineStatus";
@@ -14,6 +14,8 @@ const Body = () => {
     const [search, setSearch] = useState("");
 
     const isOnline = useOnlineStatus();
+
+    const RestaurantCardPromoted = withPromotedLabel(Restaurant)
 
 //     useEffect(() => {
 //         fetchSearchedData(search);
@@ -38,9 +40,10 @@ const Body = () => {
                 const response = await fetch(`https://www.swiggy.com/dapi/restaurants/list/v5?lat=18.5678553&lng=73.9143637&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING`);
                 if (!response.ok) throw new Error('Data could not be fetched!');
                 const data = await response.json();
+                console.log("Body Data -->", data);
                 setRestData(data.data.cards[4].card.card.gridElements.infoWithStyle.restaurants);
                 setFilteredData(data.data.cards[4].card.card.gridElements.infoWithStyle.restaurants);
-                console.log(data.data.cards[4].card.card.gridElements.infoWithStyle.restaurants)
+                // console.log("Filtered Data --> ", data.data.cards[4].card.card.gridElements.infoWithStyle.restaurants)
             } catch (error) {
                 setError(error.message);
             }
@@ -56,22 +59,24 @@ const Body = () => {
     return restData.length === 0 ? <div>loading ...</div> : (
         <div className="body-container">
 
-        <div>
-            <input type="text" placeholder="Search..." onChange={ (e) => {
+        <div className="p-4">
+            <input data-testid="searchInput" className="border border-solid border-black"
+             type="text" placeholder="Search..." onChange={ (e) => {
                 setSearch(e.target.value);
                 e.preventDefault();
             }}/>
 
-            <button onClick={() => {
-                console.log("Search Term:", search);
+            <button className="mx-4 px-4 bg-cyan-200 rounded" onClick={() => {
+                // console.log("Search Term:", search);
                 const filteredData = restData.filter((item) => item?.info?.name.toLowerCase().includes(search.toLowerCase()));
                 setFilteredData(filteredData);
             }}>Search</button>
             <div></div>
 
-            <button onClick={() => {
+            <button className="my-4 px-4 bg-green-300 rounded" 
+             onClick={() => {
                 const filterLogic = restData.filter( (item) => {
-                    console.log("average rating -->", item?.info?.avgRating);
+                    // console.log("average rating -->", item?.info?.avgRating);
                     return item?.info?.avgRating > 4.1;
                 });
 
@@ -80,29 +85,29 @@ const Body = () => {
             }}>top rated restaurants</button>
             <div></div>
 
-            <button onClick={() => {
+            <button className="my-4 px-4 bg-green-300 rounded"onClick={() => {
                 const filterLogic = restData.filter( (item) => {
-                    console.log("average rating -->", item?.info?.avgRating);
+                    // console.log("average rating -->", item?.info?.avgRating);
                     return item?.info?.avgRating < 4.1;
                 });
 
-                console.log("Filtered Data-->", filterLogic);   
+                // console.log("Filtered Data-->", filterLogic);   
                 setFilteredData(filterLogic);
             }}>low rated restaurants</button>
           
         </div>
-
-            <div className="restaurant-container">
-                 <div className="card-info-container">
+                 <div className="flex flex-wrap rounded-lg">
                     {
                         filteredData.map( resp => {
-                            return <Link to={"/restaurants/"+ resp?.info?.id} key={resp?.info?.id}>
-                                 <Restaurant  {...resp?.info} />
+                           return <Link to={"/restaurants/"+ resp?.info?.id} key={resp?.info?.id}>
+                                 {resp?.info?.isOpen ? 
+                                 ( <RestaurantCardPromoted {...resp?.info}/>):
+                                 (<Restaurant  {...resp?.info} /> )
+                                  }
                             </Link>
                             //  
                         })
                     }
-            </div>
             </div>
         </div>
     )
